@@ -107,10 +107,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ⚠️ Warning
-
-This script is 80% AI-generated and 20% human-developed. Use responsibly and at your own risk. The developers are not responsible for any account restrictions or bans that may occur from using this tool.
-
 ## 🙏 Acknowledgments
 
 - Selenium WebDriver
@@ -118,4 +114,5 @@ This script is 80% AI-generated and 20% human-developed. Use responsibly and at 
 - Instagram (for the platform)
 ---
 
+This script is 80% AI-generated and 20% My brain.
 Made with ❤️ and APPROX
