@@ -15,7 +15,7 @@ This tool is for educational purposes only. Using this script may result in:
 - Login issues (even with correct credentials)
 - Rate limiting
 
-Use at your own risk and responsibly.
+<code style="color : red">Use at your own risk and responsibly.</code>
 
 ## ✨ Features
 
@@ -105,7 +105,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU_v3.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
