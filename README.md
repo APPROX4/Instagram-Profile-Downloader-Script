@@ -15,7 +15,7 @@ This tool is for educational purposes only. Using this script may result in:
 - Login issues (even with correct credentials)
 - Rate limiting
 
-<code style="color : red">Use at your own risk and responsibly.</code>
+$${\color{red}Use at your own risk and responsibly.}$&
 
 ## ✨ Features
 
