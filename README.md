@@ -56,16 +56,17 @@ A powerful Python-based tool to download all media content from Instagram profil
 
 ## 🚀 Quick Start
 
-```bash
 # Clone the repository
+```bash
 git clone https://github.com/yourusername/instagram-profile-downloader.git
 ```
-```bash
 # Install dependencies
+```bash
 pip install -r requirements.txt
 ```
-```bash
+
 # Run the script
+```bash
 python main.py
 ```
 
