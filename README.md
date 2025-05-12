@@ -1,118 +1,167 @@
-# 📸 Instagram Profile Downloader Script
+# <div align="center">📸 Instagram Profile Downloader</div>
 
-A powerful Python-based tool to download all media content from Instagram profiles, including reels,and images.
+<div align="center">
+  <img src="https://img.shields.io/badge/Python-3.7%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/License-GPL3.0-green?style=for-the-badge&logo=gnu&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge&logo=statuspage&logoColor=white"/>
+</div>
 
-![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
-![License](https://img.shields.io/badge/License-GNU_v3.0-green)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+<div align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=2E8B57&center=true&vCenter=true&width=600&height=100&lines=Instagram+Downloader;Download+Posts+%26+Reels;Fast+%26+Easy+to+Use" alt="Typing SVG" />
+</div>
+
+## 🎯 Overview
+
+<div align="center">
+  <img src="https://github.com/yourusername/instagram-profile-downloader/raw/main/assets/demo.gif" alt="Demo" width="600"/>
+</div>
+
+A powerful Python-based tool to download all media content from Instagram profiles, including posts, reels, and carousel images. Built with modern technologies and user-friendly interface.
 
 ## ⚠️ Important Disclaimer
 
-This tool is for educational purposes only. Using this script may result in:
-- Soft bans from Instagram
-- Temporary account restrictions
-- IP bans
-- Login issues (even with correct credentials)
-- Rate limiting
-
- Use at your own risk and responsibly. ![#FF0000](https://via.placeholder.com/10/f8f8f8?text=+)
+<div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <p style="color: #ff6b6b; font-weight: bold;">⚠️ This tool is for educational purposes only.</p>
+  <p style="color: #ffffff;">Using this script may result in:</p>
+  <ul style="color: #ffffff;">
+    <li>Soft bans from Instagram</li>
+    <li>Temporary account restrictions</li>
+    <li>IP bans</li>
+    <li>Login issues (even with correct credentials)</li>
+    <li>Rate limiting</li>
+  </ul>
+  <p style="color: #ff6b6b;">Use at your own risk and responsibly.</p>
+</div>
 
 ## ✨ Features
 
-- 📥 Download all posts from any Instagram profile
-- 🎥 Download reels and videos
-- 🔐 Support for private profiles (with login)
-- 💾 Remember login credentials
-- 📊 Progress tracking
-- 🎯 High-quality media downloads
-- 🔄 Automatic retry mechanism for failed downloads
-- 🎨 GUI interface
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
+    <h3 style="color: #4CAF50;">📥 Download Posts</h3>
+    <p style="color: #ffffff;">Download all posts from any Instagram profile</p>
+  </div>
+  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
+    <h3 style="color: #2196F3;">🎥 Download Reels</h3>
+    <p style="color: #ffffff;">Download reels and videos in high quality</p>
+  </div>
+  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
+    <h3 style="color: #FF9800;">🔐 Private Profiles</h3>
+    <p style="color: #ffffff;">Support for private profiles with login</p>
+  </div>
+  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
+    <h3 style="color: #9C27B0;">💾 Save Credentials</h3>
+    <p style="color: #ffffff;">Remember login credentials securely</p>
+  </div>
+</div>
 
-
-## 📋 Prerequisites
-
-Before using this script, ensure you have the following installed:
-
-1. Python 3.7 or higher
-2. Chrome browser
-3. ChromeDriver (matching your Chrome version)
-
-## 📦 Required Python Packages
+## 🚀 Quick Start
 
 ```bash
-pip install -r requirements.txt
-```
-
-Required packages:
-- selenium
-- requests
-- tkinter
-- urllib3
-
-## 🔧 Installation
-
-1. Clone the repository:
-```bash
+# Clone the repository
 git clone https://github.com/yourusername/instagram-profile-downloader.git
+
+# Navigate to project directory
 cd instagram-profile-downloader
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-3. Download ChromeDriver:
-   - Visit [ChromeDriver downloads](https://sites.google.com/chromium.org/driver/)
-   - Download the version matching your Chrome browser
-   - Place it in `C:\WebDrivers\chromedriver.exe` or update the path in the script
-
-## 💻 Usage
-
-1. Run the script:
-```bash
+# Run the script
 python main.py
 ```
 
-2. Enter the target Instagram profile username or URL
-3. Enable login for private profiles ( recommendation )
-4. Click "Start Download"
+## 📋 Prerequisites
 
-## 📁 Output
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ul style="color: #ffffff;">
+    <li>Python 3.7 or higher</li>
+    <li>Chrome browser</li>
+    <li>ChromeDriver (matching your Chrome version)</li>
+  </ul>
+</div>
 
-All downloaded media will be saved in the `downloads` folder, organized by profile name:
-- Posts: `post_X_img_Y.jpg`
-- Reels: `reel_X.mp4`
+## 📦 Dependencies
+
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ul style="color: #ffffff;">
+    <li>selenium==4.31.0</li>
+    <li>selenium-wire==5.1.0</li>
+    <li>requests==2.32.3</li>
+    <li>urllib3==2.4.0</li>
+    <li>requests-toolbelt==1.0.0</li>
+  </ul>
+</div>
+
+## 💻 Usage Guide
+
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ol style="color: #ffffff;">
+    <li>Run the script using <code>python main.py</code></li>
+    <li>Enter the target Instagram profile username or URL</li>
+    <li>Enable login for private profiles (recommended)</li>
+    <li>Click "Start Download"</li>
+  </ol>
+</div>
+
+## 📁 Output Structure
+
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <p style="color: #ffffff;">All downloaded media will be saved in the <code>downloads</code> folder:</p>
+  <ul style="color: #ffffff;">
+    <li>Posts: <code>post_X_img_Y.jpg</code></li>
+    <li>Reels: <code>reel_X.mp4</code></li>
+  </ul>
+</div>
 
 ## ⚠️ Known Limitations
 
-- Slow download speed for large profiles
-- No support for highlights (coming soon)
-- May trigger Instagram's anti-bot measures
-- Requires manual ChromeDriver updates
-- GUI may freeze during large downloads
+<div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ul style="color: #ffffff;">
+    <li>Slow download speed for large profiles</li>
+    <li>No support for highlights (coming soon)</li>
+    <li>May trigger Instagram's anti-bot measures</li>
+    <li>Requires manual ChromeDriver updates</li>
+    <li>GUI may freeze during large downloads</li>
+  </ul>
+</div>
+
+## 🔮 Upcoming Features
+
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ul style="color: #ffffff;">
+    <li>✨ Highlights download support</li>
+    <li>✨ Stories download support</li>
+    <li>✨ Better error handling</li>
+    <li>✨ Download speed improvements</li>
+  </ul>
+</div>
+
+## ⚠️ Warning
+
+<div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% human-developed. Use responsibly and at your own risk. The developers are not responsible for any account restrictions or bans that may occur from using this tool.</p>
+</div>
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Upcoming Features If I Working on Script
-
-- [ ] Highlights download support
-- [ ] Stories download support
-- [ ] Better error handling
-- [ ] Download speed improvements
-
-## 📝 License
-
-This project is licensed under the GNU_v3.0 License - see the [LICENSE](LICENSE) file for details.
+<div align="center">
+  <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
+  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"/>
+</div>
 
 ## 🙏 Acknowledgments
 
-- Selenium WebDriver
-- Python community
-- Instagram (for the platform)
+<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <ul style="color: #ffffff;">
+    <li>Selenium WebDriver</li>
+    <li>Python community</li>
+    <li>Instagram (for the platform)</li>
+  </ul>
+</div>
+
 ---
 
-This script is 80% AI-generated and 20% My brain.
-Made with ❤️ and APPROX
+<div align="center">
+  <p>Made with ❤️ and 🤖</p>
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=version&logoColor=white"/>
+</div>
