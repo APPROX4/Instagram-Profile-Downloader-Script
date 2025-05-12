@@ -3,7 +3,7 @@
 A powerful Python-based tool to download all media content from Instagram profiles, including reels,and images.
 
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-GNU_v3.0-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
 ## ⚠️ Important Disclaimer
