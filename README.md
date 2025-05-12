@@ -1,6 +1,6 @@
-# 📸 Instagram Profile Downloader
+# 📸 Instagram Profile Downloader Script
 
-A powerful Python-based tool to download all media content from Instagram profiles, including posts, reels, and carousel images.
+A powerful Python-based tool to download all media content from Instagram profiles, including reels,and images.
 
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -21,21 +21,13 @@ Use at your own risk and responsibly.
 
 - 📥 Download all posts from any Instagram profile
 - 🎥 Download reels and videos
-- 🖼️ Download carousel images
 - 🔐 Support for private profiles (with login)
-- 💾 Remember login credentials (optional)
+- 💾 Remember login credentials
 - 📊 Progress tracking
 - 🎯 High-quality media downloads
 - 🔄 Automatic retry mechanism for failed downloads
-- 🎨 Modern GUI interface
+- 🎨 GUI interface
 
-## 🚀 Upcoming Features
-
-- [ ] Highlights download support
-- [ ] Stories download support
-- [ ] Better error handling
-- [ ] Download speed improvements
-- [ ] Multiple profile batch download
 
 ## 📋 Prerequisites
 
@@ -83,16 +75,14 @@ python main.py
 ```
 
 2. Enter the target Instagram profile username or URL
-3. (Optional) Enable login for private profiles
+3. Enable login for private profiles ( recommendation )
 4. Click "Start Download"
 
 ## 📁 Output
 
 All downloaded media will be saved in the `downloads` folder, organized by profile name:
 - Posts: `post_X_img_Y.jpg`
-- Videos: `post_video_X.mp4`
 - Reels: `reel_X.mp4`
-- Reel thumbnails: `reel_thumb_X.jpg`
 
 ## ⚠️ Known Limitations
 
@@ -105,6 +95,13 @@ All downloaded media will be saved in the `downloads` folder, organized by profi
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Upcoming Features If I Working on Script
+
+- [ ] Highlights download support
+- [ ] Stories download support
+- [ ] Better error handling
+- [ ] Download speed improvements
 
 ## 📝 License
 
@@ -119,7 +116,6 @@ This script is 80% AI-generated and 20% human-developed. Use responsibly and at 
 - Selenium WebDriver
 - Python community
 - Instagram (for the platform)
-
 ---
 
-Made with ❤️ and 🤖 
+Made with ❤️ and APPROX
