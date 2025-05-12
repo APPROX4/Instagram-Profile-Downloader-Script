@@ -80,18 +80,6 @@ python main.py
   </ul>
 </div>
 
-## 📦 Dependencies
-
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <ul style="color: #ffffff;">
-    <li>selenium==4.31.0</li>
-    <li>selenium-wire==5.1.0</li>
-    <li>requests==2.32.3</li>
-    <li>urllib3==2.4.0</li>
-    <li>requests-toolbelt==1.0.0</li>
-  </ul>
-</div>
-
 ## 💻 Usage Guide
 
 <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
@@ -136,12 +124,6 @@ python main.py
   </ul>
 </div>
 
-## ⚠️ Warning
-
-<div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% human-developed. Use responsibly and at your own risk. The developers are not responsible for any account restrictions or bans that may occur from using this tool.</p>
-</div>
-
 ## 🤝 Contributing
 
 <div align="center">
@@ -162,6 +144,9 @@ python main.py
 ---
 
 <div align="center">
-  <p>Made with ❤️ and 🤖</p>
+  <div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% My Brain.</p>
+</div>
+  <p>Made with ❤️ and APPROX</p>
   <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=version&logoColor=white"/>
 </div>
