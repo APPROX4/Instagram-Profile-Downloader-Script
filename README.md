@@ -15,7 +15,7 @@ This tool is for educational purposes only. Using this script may result in:
 - Login issues (even with correct credentials)
 - Rate limiting
 
-$${\color{red}Use at your own risk and responsibly.}$&
+ Use at your own risk and responsibly. ![#FF0000](https://via.placeholder.com/10/f8f8f8?text=+)
 
 ## ✨ Features
 
