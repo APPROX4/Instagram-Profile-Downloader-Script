@@ -40,20 +40,16 @@
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
   <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #4CAF50;">📥 Download Posts</h3>
-    <p style="color: #ffffff;">Download all posts from any Instagram profile</p>
+    <h3 style="color: #4CAF50;">📥 Download Images</h3>
+    <p style="color: #ffffff;">Download all Images from any Instagram profile</p>
   </div>
   <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
     <h3 style="color: #2196F3;">🎥 Download Reels</h3>
     <p style="color: #ffffff;">Download reels and videos in high quality</p>
   </div>
   <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #FF9800;">🔐 Private Profiles</h3>
-    <p style="color: #ffffff;">Support for private profiles with login</p>
-  </div>
-  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #9C27B0;">💾 Save Credentials</h3>
-    <p style="color: #ffffff;">Remember login credentials securely</p>
+    <h3 style="color: #9C27B0;">💾 Remember</h3>
+    <p style="color: #ffffff;">Remember login Password & Username</p>
   </div>
 </div>
 
