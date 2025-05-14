@@ -1,4 +1,4 @@
-# <div align="center">📸 Instagram Profile Downloader</div>
+# <div align="center">**📸 Instagram Profile Downloader**</div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.7%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
@@ -7,18 +7,19 @@
 </div>
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=2E8B57&center=true&vCenter=true&width=600&height=100&lines=Instagram+Downloader;Download+Posts+%26+Reels;Fast+%26+Easy+to+Use" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=2E8B57&center=true&vCenter=true&width=600&height=100&lines=Instagram+Downloader;Download+Image+%26+Reels;Fast+%26+Easy+to+Use" alt="Typing SVG" />
 </div>
 
-## 🎯 Overview
+# <div align="center">🎯 Overview</div>
+<p align="center">
+  <a href="https://postimg.cc/k2098gH2">
+    <img src="https://i.postimg.cc/hGjGkJb1/Capp.png" alt="Capp.png"/>
+  </a>
+</p>
 
-<div align="center">
-  <img src="https://github.com/yourusername/instagram-profile-downloader/raw/main/assets/demo.gif" alt="Demo" width="600"/>
-</div>
+<div align="center">A powerful Python-based tool to download all media content from Instagram profiles, including posts, reels, and carousel images. Built with modern technologies and user-friendly interface.</div>
 
-A powerful Python-based tool to download all media content from Instagram profiles, including posts, reels, and carousel images. Built with modern technologies and user-friendly interface.
-
-## ⚠️ Important Disclaimer
+## ⚠️ Important Disclaimer</div>
 
 <div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
   <p style="color: #ff6b6b; font-weight: bold;">⚠️ This tool is for educational purposes only.</p>
@@ -113,24 +114,6 @@ python main.py
   </ul>
 </div>
 
-## 🔮 Upcoming Features
-
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <ul style="color: #ffffff;">
-    <li>✨ Highlights download support</li>
-    <li>✨ Stories download support</li>
-    <li>✨ Better error handling</li>
-    <li>✨ Download speed improvements</li>
-  </ul>
-</div>
-
-## 🤝 Contributing
-
-<div align="center">
-  <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
-  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"/>
-</div>
-
 ## 🙏 Acknowledgments
 
 <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
@@ -141,12 +124,17 @@ python main.py
   </ul>
 </div>
 
+# <div align="center">🤝 Contributing</div>
+
+<div align="center">
+  <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
+  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"/>
+</div>
+
 ---
 
 <div align="center">
   <div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
   <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% My Brain.</p>
-</div>
-  <p>Made with ❤️ and APPROX</p>
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=version&logoColor=white"/>
-</div>
+<h2 align="center">APPROX</h2>
+
