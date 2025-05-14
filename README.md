@@ -8,27 +8,29 @@
 
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=2E8B57&center=true&vCenter=true&width=600&height=100&lines=Instagram+Downloader;Download+Image+%26+Reels;Fast+%26+Easy+to+Use" alt="Typing SVG" />
-</div>
+</div
+  
+---
 
 # <div align="center">🎯 Overview</div>
+<div align="center">A Python-based tool to download all media content from Instagram profiles, including reels, and images. user-friendly interface.</div>
+<p></p>
 <p align="center">
   <a href="https://postimg.cc/k2098gH2">
     <img src="https://i.postimg.cc/hGjGkJb1/Capp.png" alt="Capp.png"/>
   </a>
 </p>
 
-<div align="center">A powerful Python-based tool to download all media content from Instagram profiles, including posts, reels, and carousel images. Built with modern technologies and user-friendly interface.</div>
-
 ## ⚠️ Important Disclaimer</div>
 
-<div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
+<div style="background-color: #2d2d2d; padding: 40px; border-radius: 40px; margin: 40px 0;">
   <p style="color: #ff6b6b; font-weight: bold;">⚠️ This tool is for educational purposes only.</p>
   <p style="color: #ffffff;">Using this script may result in:</p>
   <ul style="color: #ffffff;">
     <li>Soft bans from Instagram</li>
     <li>Temporary account restrictions</li>
     <li>IP bans</li>
-    <li>Login issues (even with correct credentials)</li>
+    <li>Login issues (even with correct password or id)</li>
     <li>Rate limiting</li>
   </ul>
   <p style="color: #ff6b6b;">Use at your own risk and responsibly.</p>
