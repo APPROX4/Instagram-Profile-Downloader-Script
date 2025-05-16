@@ -16,8 +16,8 @@
 <div align="center">A Python-based tool to download all media content from Instagram profiles, including reels, and images. user-friendly interface.</div>
 <p></p>
 <p align="center">
-  <a href="https://postimg.cc/k2098gH2">
-    <img src="https://i.postimg.cc/hGjGkJb1/Capp.png" alt="Capp.png"/>
+  <a href="https://postimg.cc/2Vr4ZnsL">
+    <img src="https://i.postimg.cc/qMCQWLQw/Capture125.png" alt="Capp.png"/>
   </a>
 </p>
 
