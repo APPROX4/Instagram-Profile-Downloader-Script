@@ -1,5 +1,6 @@
-selenium==4.18.1
-selenium-wire==5.1.0
-requests==2.31.0
-urllib3==2.2.1
-requests-toolbelt==1.0.0 
+selenium
+selenium-wire
+requests
+urllib3
+requests-toolbelt
+customtkinter
