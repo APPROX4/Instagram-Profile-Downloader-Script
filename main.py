@@ -5,8 +5,7 @@ import urllib.request
 import requests
 import re
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
-from tkinter import *
-from tkinter import ttk, messagebox
+import customtkinter as ctk
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -19,7 +18,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 # === SETTINGS ===
 CHROMEDRIVER_PATH = "C:\\WebDrivers\\chromedriver.exe"  # Adjust the path if needed
 DOWNLOAD_DIR = "downloads"
-CREDENTIALS_FILE = "credentials.json"  # File to save credentials
+CREDENTIALS_FILE = "credentials.json"  # File to save login credentials
 
 # === UTILS ===
 def delay(min_sec=2, max_sec=4):
@@ -196,19 +195,84 @@ def download_video(url, save_path):
         print(f"Error downloading video: {e}")
         return False
 
-# === GUI ===
-class InstaDownloader:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Instagram Downloader")
-        self.root.geometry("500x400")
-        self.root.resizable(False, False)
+class InstaDownloader(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Instagram Profile Downloader")
+        self.geometry("800x500")
+        self.resizable(False, False)
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("dark-blue")
+        self.configure(fg_color="#232323")
 
-        self.username = StringVar()
-        self.password = StringVar()
-        self.target = StringVar()
-        self.use_login = BooleanVar()
-        self.remember_me = BooleanVar()
+        # --- Fonts ---
+        FONT_HEADER = ("Segoe UI", 20, "bold", "italic")
+        FONT_LABEL = ("Segoe UI", 13)
+        FONT_INPUT = ("Segoe UI", 13)
+        FONT_BUTTON = ("Segoe UI", 14, "bold")
+        FONT_LOG = ("Consolas", 11)
+        FONT_FOOTER = ("Segoe UI", 14)
+
+        # --- Header Bar ---
+        self.header = ctk.CTkFrame(self, fg_color="#ffffff", height=55)
+        self.header.pack(fill="x", side="top", padx=0, pady=(0,0))
+        self.header.grid_propagate(False)
+        self.header_label = ctk.CTkLabel(self.header, text="INSTAGRAM PROFILE DOWNLOADER", font=FONT_HEADER, text_color="#111", anchor="center")
+        self.header_label.place(relx=0.5, rely=0.5, anchor="center")
+
+        # --- Main Content ---
+        self.main = ctk.CTkFrame(self, fg_color="#232323", corner_radius=20)
+        self.main.pack(fill="both", expand=True, padx=10, pady=(0,10))
+        self.main.grid_columnconfigure(0, weight=0)
+        self.main.grid_columnconfigure(1, weight=1)
+        self.main.grid_rowconfigure(0, weight=1)
+
+        # --- Left Column ---
+        self.left = ctk.CTkFrame(self.main, fg_color="#232323")
+        self.left.grid(row=0, column=0, sticky="nsew", padx=(30,10), pady=(20,10))
+        self.left.grid_columnconfigure(0, weight=1)
+
+        self.target = ctk.StringVar()
+        self.username = ctk.StringVar()
+        self.password = ctk.StringVar()
+        self.remember_me = ctk.BooleanVar()
+
+        ctk.CTkLabel(self.left, text="Target Username / URL of Profile", font=FONT_LABEL, text_color="#fff", anchor="w").grid(row=0, column=0, sticky="w", pady=(0,2))
+        self.target_entry = ctk.CTkEntry(self.left, textvariable=self.target, font=FONT_INPUT, width=270, height=32, fg_color="#dddddd", text_color="#111", border_width=0, corner_radius=10)
+        self.target_entry.grid(row=1, column=0, sticky="ew", pady=(0,14))
+
+        ctk.CTkLabel(self.left, text="Your Username", font=FONT_LABEL, text_color="#fff", anchor="w").grid(row=2, column=0, sticky="w", pady=(0,2))
+        self.username_entry = ctk.CTkEntry(self.left, textvariable=self.username, font=FONT_INPUT, width=220, height=32, fg_color="#dddddd", text_color="#111", border_width=0, corner_radius=10)
+        self.username_entry.grid(row=3, column=0, sticky="ew", pady=(0,14))
+
+        ctk.CTkLabel(self.left, text="Your Password", font=FONT_LABEL, text_color="#fff", anchor="w").grid(row=4, column=0, sticky="w", pady=(0,2))
+        self.password_entry = ctk.CTkEntry(self.left, textvariable=self.password, font=FONT_INPUT, width=220, height=32, fg_color="#dddddd", text_color="#111", border_width=0, corner_radius=10, show="*")
+        self.password_entry.grid(row=5, column=0, sticky="ew", pady=(0,14))
+
+        self.remember_cb = ctk.CTkCheckBox(self.left, text="Remember me", variable=self.remember_me, font=FONT_LABEL, text_color="#fff", fg_color="#dddddd", border_color="#888", hover_color="#bbb", corner_radius=6)
+        self.remember_cb.grid(row=6, column=0, sticky="w", pady=(0,18))
+
+        self.download_btn = ctk.CTkButton(self.left, text="DOWNLOAD", font=FONT_BUTTON, fg_color="#dddddd", text_color="#222", hover_color="#bbbbbb", corner_radius=10, width=160, height=40, command=self.start_download)
+        self.download_btn.grid(row=7, column=0, pady=(10,0))
+
+        # --- Right Column ---
+        self.right = ctk.CTkFrame(self.main, fg_color="#232323")
+        self.right.grid(row=0, column=1, sticky="nsew", padx=(10,10), pady=(20,10))
+        self.right.grid_columnconfigure(0, weight=1)
+        self.right.grid_rowconfigure(1, weight=1)
+
+        ctk.CTkLabel(self.right, text="Log", font=FONT_LABEL, text_color="#fff", anchor="w").grid(row=0, column=0, sticky="w", pady=(0,2))
+        self.log_box = ctk.CTkTextbox(self.right, font=FONT_LOG, fg_color="#dddddd", text_color="#222", width=370, height=320, corner_radius=10, border_width=0)
+        self.log_box.grid(row=1, column=0, sticky="nsew")
+        self.log_box.configure(state="disabled")
+
+        self.copy_log_btn = ctk.CTkButton(self.right, text="COPY LOG", font=("Segoe UI", 10), fg_color="#dddddd", text_color="#222", hover_color="#bbbbbb", corner_radius=8, width=80, height=28, command=self.copy_log)
+        self.copy_log_btn.grid(row=2, column=0, sticky="e", pady=(6,0))
+
+        # --- Footer ---
+        self.footer = ctk.CTkFrame(self, fg_color="#232323", height=30)
+        self.footer.pack(fill="x", side="bottom")
+        ctk.CTkLabel(self.footer, text="Script By APPROX", font=FONT_FOOTER, text_color="#ccc", anchor="w").pack(side="left", padx=18, pady=2)
 
         # Load saved credentials if available
         credentials = load_credentials()
@@ -217,47 +281,34 @@ class InstaDownloader:
             self.password.set(credentials['password'])
             self.remember_me.set(True)
 
-        # Widgets
-        Label(root, text="Target Username / Profile URL").pack(pady=5)
-        Entry(root, textvariable=self.target, width=50).pack()
-
-        Checkbutton(root, text="Use Login (for private profiles)", variable=self.use_login).pack()
-
-        Label(root, text="Your Instagram Username").pack()
-        Entry(root, textvariable=self.username, width=30).pack()
-
-        Label(root, text="Your Instagram Password").pack()
-        Entry(root, textvariable=self.password, width=30, show="*").pack()
-
-        Checkbutton(root, text="Remember Me", variable=self.remember_me).pack()
-
-        Button(root, text="Start Download", command=self.start_download).pack(pady=10)
-
-        self.log_box = Text(root, height=10, width=60)
-        self.log_box.pack(pady=5)
-
-        self.progress = ttk.Progressbar(root, orient="horizontal", length=400, mode="determinate")
-        self.progress.pack(pady=10)
-
     def log(self, msg):
-        self.log_box.insert(END, f"{msg}\n")
-        self.log_box.see(END)
-        self.root.update()
+        self.log_box.configure(state="normal")
+        self.log_box.insert("end", f"{msg}\n")
+        self.log_box.see("end")
+        self.log_box.configure(state="disabled")
+        self.update()
+
+    def copy_log(self):
+        self.log_box.configure(state="normal")
+        self.clipboard_clear()
+        self.clipboard_append(self.log_box.get("1.0", "end").strip())
+        self.log_box.configure(state="disabled")
+        self.log("Log copied to clipboard.")
 
     def start_download(self):
         try:
             self.download_profile()
         except Exception as e:
             self.log(f"Error: {e}")
-            messagebox.showerror("Error", str(e))
+            ctk.messagebox.showerror("Error", str(e))
 
     def collect_all_posts(self, driver, profile_url):
-        """Improved method to collect all posts including reels"""
+        """collect all posts including reels"""
         self.log("Collecting all post URLs...")
         post_links = set()
         reel_links = set()
         scroll_attempts = 0
-        max_scroll_attempts = 30  # Increased from 20 to 30
+        max_scroll_attempts = 30
         last_height = driver.execute_script("return document.body.scrollHeight")
         
         # First collect regular posts
@@ -384,6 +435,8 @@ class InstaDownloader:
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("--window-size=1280,720")
+        options.add_argument("--disable-save-password-bubble")
+        options.add_argument("--disable-translate")
         options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
 
         service = Service(CHROMEDRIVER_PATH)
@@ -396,7 +449,7 @@ class InstaDownloader:
             delay()
 
             # Login if required
-            if self.use_login.get():
+            if self.remember_me.get():
                 self.log("Logging in...")
                 delay()
                 driver.find_element(By.NAME, "username").send_keys(self.username.get())
@@ -404,20 +457,6 @@ class InstaDownloader:
                 driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
                 delay(5, 6)
                 self.log("Login successful.")
-
-                # Handle post-login popups
-                try:
-                    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Not Now')]"))).click()
-                except: pass
-                try:
-                    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Not Now')]"))).click()
-                except: pass
-
-                if self.remember_me.get():
-                    save_credentials(self.username.get(), self.password.get())
-                else:
-                    if os.path.exists(CREDENTIALS_FILE):
-                        os.remove(CREDENTIALS_FILE)
 
             # Navigate to profile
             target = self.target.get().strip()
@@ -437,7 +476,6 @@ class InstaDownloader:
             reel_links, post_links = self.collect_all_posts(driver, profile_url)
             total_links = len(reel_links) + len(post_links)
             self.log(f"Total found: {len(reel_links)} reels and {len(post_links)} posts")
-            self.progress["maximum"] = total_links
             
             # First download all reels
             self.log("=== DOWNLOADING REELS ===")
@@ -640,9 +678,6 @@ class InstaDownloader:
                 except Exception as e:
                     self.log(f"Error saving reel thumbnail: {e}")
 
-                self.progress["value"] = index + 1
-                self.root.update()
-            
             # Then download all regular posts
             self.log("=== DOWNLOADING REGULAR POSTS ===")
             for index, post_url in enumerate(post_links):
@@ -805,9 +840,6 @@ class InstaDownloader:
                     except Exception as e:
                         self.log(f"Download error: {e}")
 
-                self.progress["value"] = len(reel_links) + index + 1
-                self.root.update()
-
             self.log("✅ Download Complete.")
 
         except Exception as e:
@@ -817,6 +849,5 @@ class InstaDownloader:
             driver.quit()
 
 if __name__ == "__main__":
-    root = Tk()
-    app = InstaDownloader(root)
-    root.mainloop() 
+    app = InstaDownloader()
+    app.mainloop() 
