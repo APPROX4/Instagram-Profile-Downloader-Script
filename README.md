@@ -57,7 +57,7 @@
 
 # Clone the repository
 ```bash
-git clone https://github.com/yourusername/instagram-profile-downloader.git
+git clone https://github.com/APPROX4/instagram-profile-downloader.git
 ```
 # Install dependencies
 ```bash
