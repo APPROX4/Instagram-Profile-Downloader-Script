@@ -447,15 +447,14 @@ class InstaDownloader(ctk.CTk):
         try:
             driver.get("https://www.instagram.com/")
             delay()
-
-            # Login if required
+            
             if self.remember_me.get():
                 self.log("Logging in...")
                 delay()
                 driver.find_element(By.NAME, "username").send_keys(self.username.get())
                 driver.find_element(By.NAME, "password").send_keys(self.password.get())
                 driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
-                delay(5, 6)
+                delay(8, 9)
                 self.log("Login successful.")
 
             # Navigate to profile
