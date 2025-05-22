@@ -1,6 +1,5 @@
-selenium
-selenium-wire
 requests
-urllib3
-requests-toolbelt
+selenium
 customtkinter
+Pillow
+tqdm
