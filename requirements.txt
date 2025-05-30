@@ -1,5 +1,7 @@
-requests
 selenium
+requests
+urllib3
 customtkinter
+requests-toolbelt
 Pillow
 tqdm
