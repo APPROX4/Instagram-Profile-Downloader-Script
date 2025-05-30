@@ -14,11 +14,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, StaleElementReferenceException
+from PIL import Image
+import io
+import concurrent.futures
+from tqdm import tqdm
 
 # === SETTINGS ===
 CHROMEDRIVER_PATH = "C:\\WebDrivers\\chromedriver.exe"  # Adjust the path if needed
 DOWNLOAD_DIR = "downloads"
 CREDENTIALS_FILE = "credentials.json"  # File to save login credentials
+MAX_WORKERS = 10  # Number of concurrent image processing workers
 
 # === UTILS ===
 def delay(min_sec=2, max_sec=4):
@@ -182,8 +187,6 @@ def download_video(url, save_path):
                         # Print progress
                         if total_size > 0:
                             percent = int(100 * downloaded / total_size)
-                            print(f"\rDownloading: {percent}%", end="")
-                print("\rDownload complete!                ")
                 
                 # Verify downloaded size matches expected size
                 if downloaded != total_size:
@@ -194,6 +197,61 @@ def download_video(url, save_path):
     except Exception as e:
         print(f"Error downloading video: {e}")
         return False
+
+def process_image(image_data, save_path):
+    """Process and convert image to proper format"""
+    try:
+        # Create image from bytes
+        img = Image.open(io.BytesIO(image_data))
+        
+        # Convert to RGB if needed (for PNG with transparency)
+        if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
+            background = Image.new('RGB', img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+            img = background
+        
+        # Save as JPEG with quality 100
+        img.save(save_path, 'JPEG', quality=100)
+        return True
+    except Exception as e:
+        print(f"Error processing image: {e}")
+        return False
+
+def download_and_process_image(url, save_path):
+    """Download and process image with proper format handling"""
+    try:
+        # Download image with proper headers
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Referer": "https://www.instagram.com/",
+            "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+        
+        response = requests.get(url, headers=headers, stream=True)
+        response.raise_for_status()
+        
+        # Process and save image
+        if process_image(response.content, save_path):
+            return True
+        return False
+    except Exception as e:
+        print(f"Error downloading image: {e}")
+        return False
+
+def batch_process_images(image_tasks):
+    """Process multiple images concurrently"""
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = []
+        for url, save_path in image_tasks:
+            futures.append(executor.submit(download_and_process_image, url, save_path))
+        
+        # Wait for all tasks to complete
+        for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Processing images"):
+            try:
+                future.result()
+            except Exception as e:
+                print(f"Error in image processing task: {e}")
 
 class InstaDownloader(ctk.CTk):
     def __init__(self):
@@ -281,7 +339,7 @@ class InstaDownloader(ctk.CTk):
             self.password.set(credentials['password'])
             self.remember_me.set(True)
 
-    def log(self, msg):
+    def log(self, msg, level="info"):
         self.log_box.configure(state="normal")
         self.log_box.insert("end", f"{msg}\n")
         self.log_box.see("end")
@@ -293,33 +351,29 @@ class InstaDownloader(ctk.CTk):
         self.clipboard_clear()
         self.clipboard_append(self.log_box.get("1.0", "end").strip())
         self.log_box.configure(state="disabled")
-        self.log("Log copied to clipboard.")
+        self.log("Log copied to clipboard.", level="success")
 
     def start_download(self):
         try:
             self.download_profile()
         except Exception as e:
-            self.log(f"Error: {e}")
+            self.log(f"Error: {e}", level="error")
             ctk.messagebox.showerror("Error", str(e))
 
     def collect_all_posts(self, driver, profile_url):
-        """collect all posts including reels"""
+        import time
         self.log("Collecting all post URLs...")
         post_links = set()
         reel_links = set()
-        scroll_attempts = 0
-        max_scroll_attempts = 30
         last_height = driver.execute_script("return document.body.scrollHeight")
-        
-        # First collect regular posts
-        while scroll_attempts < max_scroll_attempts:
-            # Scroll to bottom
+        last_new_post_time = time.time()
+        timeout = 15  # seconds
+        last_reported = (0, 0)
+        while True:
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             delay(2, 3)
-            
-            # Get all links
             links = driver.find_elements(By.XPATH, "//a[contains(@href, '/p/') or contains(@href, '/reel/')]")
-            
+            prev_count = len(post_links) + len(reel_links)
             for link in links:
                 try:
                     href = link.get_attribute("href")
@@ -330,106 +384,111 @@ class InstaDownloader(ctk.CTk):
                             reel_links.add(href)
                 except StaleElementReferenceException:
                     continue
-            
-            # Check if we've reached the bottom
+            new_count = len(post_links) + len(reel_links)
+            if new_count > prev_count:
+                last_new_post_time = time.time()  # Reset timer if new post found
             new_height = driver.execute_script("return document.body.scrollHeight")
+            # Only log if new posts/reels found or every 5s
+            if (len(post_links), len(reel_links)) != last_reported:
+                self.log(f"Found {len(post_links)} posts and {len(reel_links)} reels and keep looking...")
+                last_reported = (len(post_links), len(reel_links))
+            if time.time() - last_new_post_time > timeout:
+                self.log("Reached the bottom of the page.")
+                break
             if new_height == last_height:
-                scroll_attempts += 1
-            else:
-                scroll_attempts = 0
-                last_height = new_height
-                
-            self.log(f"Found {len(post_links)} posts and {len(reel_links)} reels so far...")
-            
-        # Return separate lists for reels and posts
+                time.sleep(1)
+                new_height = driver.execute_script("return document.body.scrollHeight")
+                if new_height == last_height:
+                    self.log("Reached the bottom of the page.")
+                    break
+            last_height = new_height
         return list(reel_links), list(post_links)
 
-    def get_all_images_from_carousel(self, driver):
-        """Get all images from a carousel post"""
-        media_urls = set()
-        visited_urls = set()  # Track visited image URLs instead of button IDs
-        max_carousel_attempts = 100  # Increased significantly to handle posts with many images
+    def get_all_media_from_carousel(self, driver):
+        import time
+        from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+        media = []
+        seen_urls = set()
+        max_carousel_attempts = 100
         carousel_attempts = 0
-        
-        # Wait for initial images to load
-        time.sleep(3)
-        
-        # First get all images from the current view
-        imgs = driver.find_elements(By.XPATH, "//article//img")
-        for img in imgs:
-            try:
-                src = img.get_attribute("src")
-                if src and "150x150" not in src:  # Skip profile pics
-                    media_urls.add(src)
-                    visited_urls.add(src)
-            except StaleElementReferenceException:
-                continue
-        
-        # Then try to navigate through the carousel
+        last_media_count = 0
+        last_new_media_time = time.time()
+        timeout = 8
+        time.sleep(2)
         while carousel_attempts < max_carousel_attempts:
-            try:
-                # Look for the next button
-                next_btn = driver.find_element(By.XPATH, "//button[@aria-label='Next']")
-                
-                # Click the next button
-                next_btn.click()
-                
-                # Wait longer for new images to load
-                time.sleep(3)
-                
-                # Get images from the new view
-                imgs = driver.find_elements(By.XPATH, "//article//img")
-                new_images_found = False
-                
-                for img in imgs:
-                    try:
-                        src = img.get_attribute("src")
-                        if src and "150x150" not in src and src not in visited_urls:  # Skip profile pics and already visited URLs
-                            media_urls.add(src)
-                            visited_urls.add(src)
-                            new_images_found = True
-                    except StaleElementReferenceException:
-                        continue
-                
-                # If no new images were found, we've probably reached the end
-                if not new_images_found:
-                    # Double check by trying one more time with a longer wait
-                    time.sleep(2)
-                    imgs = driver.find_elements(By.XPATH, "//article//img")
-                    new_images_found = False
-                    for img in imgs:
-                        try:
-                            src = img.get_attribute("src")
-                            if src and "150x150" not in src and src not in visited_urls:
-                                media_urls.add(src)
-                                visited_urls.add(src)
-                                new_images_found = True
-                        except StaleElementReferenceException:
-                            continue
-                    
-                    if not new_images_found:
+            imgs = driver.find_elements(By.XPATH, "//article//img")
+            for img in imgs:
+                try:
+                    src = img.get_attribute("src")
+                    if src and "150x150" not in src and src not in seen_urls:
+                        media.append({"url": src, "type": "image"})
+                        seen_urls.add(src)
+                        last_new_media_time = time.time()
+                except Exception:
+                    continue
+
+            logs = driver.get_log("performance")
+            video_candidates = {}
+            for entry in logs:
+                try:
+                    message = json.loads(entry["message"])["message"]
+                    if message["method"] == "Network.loadingFinished":
+                        req_id = message["params"]["requestId"]
+                        total_bytes = message["params"].get("encodedDataLength", 0)
+                        for back_entry in logs:
+                            back_msg = json.loads(back_entry["message"])["message"]
+                            if back_msg["method"] == "Network.requestWillBeSent":
+                                if back_msg["params"]["requestId"] == req_id:
+                                    url = back_msg["params"]["request"]["url"]
+                                    if ".mp4" in url and "fna.fbcdn.net" in url and url not in seen_urls:
+                                        video_candidates[url] = total_bytes
                         break
-                
+                except Exception:
+                    continue
+            if video_candidates:
+                sorted_candidates = sorted(video_candidates.items(), key=lambda x: x[1], reverse=True)
+                best_url = sorted_candidates[0][0]
+                parsed = urlparse(best_url)
+                query = parse_qs(parsed.query)
+                query.pop("bytestart", None)
+                query.pop("byteend", None)
+                clean_url = urlunparse((
+                    parsed.scheme,
+                    parsed.netloc,
+                    parsed.path,
+                    parsed.params,
+                    urlencode(query, doseq=True),
+                    parsed.fragment
+                ))
+                if clean_url not in seen_urls:
+                    media.append({"url": clean_url, "type": "video"})
+                    seen_urls.add(clean_url)
+                    last_new_media_time = time.time()
+            try:
+                next_btn = driver.find_element(By.XPATH, "//button[@aria-label='Next']")
+                next_btn.click()
+                time.sleep(1)
                 carousel_attempts += 1
-                
             except NoSuchElementException:
-                # No more next button, we're done
                 break
             except Exception as e:
-                self.log(f"Error navigating carousel: {e}")
-                # Try one more time with a longer wait
+                self.log(f"Error navigating carousel: {e}", level="warning")
                 try:
-                    time.sleep(3)
+                    time.sleep(1)
                     next_btn = driver.find_element(By.XPATH, "//button[@aria-label='Next']")
                     next_btn.click()
-                    time.sleep(3)
+                    time.sleep(1)
                 except:
                     break
-        
-        self.log(f"Found {len(media_urls)} total images in carousel")
-        return media_urls
+            if time.time() - last_new_media_time > timeout:
+                self.log(f"No new media found for {timeout} seconds. Stopping carousel swipe.", level="warning")
+                break
+        self.log(f"Found {len(media)} total media in carousel (images + videos)", level="success")
+        return media
 
     def download_profile(self):
+        import time
+        start_time = time.time()
         options = Options()
         options.add_argument("--start-maximized")
         options.add_argument("--disable-notifications")
@@ -447,7 +506,7 @@ class InstaDownloader(ctk.CTk):
         try:
             driver.get("https://www.instagram.com/")
             delay()
-            
+
             if self.remember_me.get():
                 self.log("Logging in...")
                 delay()
@@ -477,119 +536,88 @@ class InstaDownloader(ctk.CTk):
             self.log(f"Total found: {len(reel_links)} reels and {len(post_links)} posts")
             
             # First download all reels
-            self.log("=== DOWNLOADING REELS ===")
+            self.log("\n=== DOWNLOADING REELS ===")
             for index, reel_url in enumerate(reel_links):
                 # Clear logs before processing each post
                 driver.get_log("performance")
-                
-                # Navigate to the reel
                 driver.get(reel_url)
                 self.log(f"[Reel {index+1}/{len(reel_links)}] {reel_url}")
-                
-                # Wait for video to load
                 self.log("Waiting for video to load...")
-                time.sleep(5)  # Increased wait time to ensure video loads
-                
-                # Try to find and click the play button if it exists
+                time.sleep(5)  # Wait for video to load
+
+                # Try to play the video to trigger all qualities
                 try:
                     play_button = driver.find_element(By.XPATH, "//button[@aria-label='Play']")
                     play_button.click()
-                    time.sleep(2)  # Wait for video to start playing
+                    time.sleep(2)
                 except:
-                    pass  # No play button found, continue
-                
+                    pass
+
+                # Wait a bit more to ensure all video qualities are loaded
+                time.sleep(3)
+
                 # Get logs after waiting
                 logs = driver.get_log("performance")
-                
-                # Parse logs for .mp4 responses
-                video_candidates = {}  # {url: transferred_size}
+                video_candidates = {}
 
                 for entry in logs:
                     try:
                         message = json.loads(entry["message"])["message"]
-
-                        # Only handle finished network loads
                         if message["method"] == "Network.loadingFinished":
                             req_id = message["params"]["requestId"]
                             total_bytes = message["params"].get("encodedDataLength", 0)
-
-                            # Backtrack to find matching request URL
                             for back_entry in logs:
                                 back_msg = json.loads(back_entry["message"])["message"]
                                 if back_msg["method"] == "Network.requestWillBeSent":
                                     if back_msg["params"]["requestId"] == req_id:
                                         url = back_msg["params"]["request"]["url"]
                                         if ".mp4" in url and "fna.fbcdn.net" in url:
-                                            # Store both the URL and its size
                                             video_candidates[url] = total_bytes
                                         break
-
                     except Exception:
                         continue
 
-                # If no video found in logs, try refreshing the page and waiting again
-                if not video_candidates:
-                    self.log("No video found in first attempt, refreshing page...")
+                # If no video found, try refreshing and repeat (up to 2-3 times)
+                retries = 0
+                while not video_candidates and retries < 2:
+                    self.log("No video found, refreshing and retrying...")
                     driver.refresh()
-                    time.sleep(5)  # Wait for page to reload
-                    
-                    # Try to find and click the play button if it exists
+                    time.sleep(5)
                     try:
                         play_button = driver.find_element(By.XPATH, "//button[@aria-label='Play']")
                         play_button.click()
-                        time.sleep(2)  # Wait for video to start playing
+                        time.sleep(2)
                     except:
-                        pass  # No play button found, continue
-                    
-                    # Get logs again
+                        pass
+                    time.sleep(3)
                     logs = driver.get_log("performance")
-                    
-                    # Parse logs for .mp4 responses again
                     for entry in logs:
                         try:
                             message = json.loads(entry["message"])["message"]
-
-                            # Only handle finished network loads
                             if message["method"] == "Network.loadingFinished":
                                 req_id = message["params"]["requestId"]
                                 total_bytes = message["params"].get("encodedDataLength", 0)
-
-                                # Backtrack to find matching request URL
                                 for back_entry in logs:
                                     back_msg = json.loads(back_entry["message"])["message"]
                                     if back_msg["method"] == "Network.requestWillBeSent":
                                         if back_msg["params"]["requestId"] == req_id:
                                             url = back_msg["params"]["request"]["url"]
                                             if ".mp4" in url and "fna.fbcdn.net" in url:
-                                                # Store both the URL and its size
                                                 video_candidates[url] = total_bytes
                                             break
-
                         except Exception:
                             continue
+                    retries += 1
 
-                if not video_candidates:
-                    self.log("No suitable .mp4 file found in network logs, trying alternative methods...")
-                    # Try alternative methods
-                    video_url = extract_video_url_from_page(driver)
-                else:
-                    # Sort candidates by size in descending order to get highest quality
+                if video_candidates:
+                    # Always pick the largest file
                     sorted_candidates = sorted(video_candidates.items(), key=lambda x: x[1], reverse=True)
-                    
-                    # Log all found video URLs and their sizes
-                    self.log(f"Found {len(sorted_candidates)} video candidates:")
-                    for url, size in sorted_candidates[:3]:  # Show top 3 candidates
-                        self.log(f"Size: {size/1024/1024:.2f}MB - URL: {url[:50]}...")
-                    
-                    # Get the URL with the largest size (highest quality)
                     best_url = sorted_candidates[0][0]
-
                     # Clean URL
                     parsed = urlparse(best_url)
                     query = parse_qs(parsed.query)
                     query.pop("bytestart", None)
                     query.pop("byteend", None)
-
                     video_url = urlunparse((
                         parsed.scheme,
                         parsed.netloc,
@@ -598,92 +626,60 @@ class InstaDownloader(ctk.CTk):
                         urlencode(query, doseq=True),
                         parsed.fragment
                     ))
-                
-                # Download the video if we found a URL
-                if video_url:
                     filename = f"reel_{index+1}.mp4"
                     save_path = os.path.join(save_folder, filename)
-                    if not os.path.exists(save_path):
-                        self.log(f"Downloading video from: {video_url[:50]}...")
-                        
-                        # Try downloading with different headers if needed
-                        success = False
-                        max_retries = 3
-                        retry_count = 0
-                        
-                        while not success and retry_count < max_retries:
-                            # First try with standard headers
-                            if download_video(video_url, save_path):
-                                # Verify the downloaded file size
-                                if os.path.getsize(save_path) > 100000:  # More than 100KB
+                    self.log("Found and Downloading..")
+                    success = False
+                    max_retries = 3
+                    retry_count = 0
+                    while not success and retry_count < max_retries:
+                        if download_video(video_url, save_path):
+                            if os.path.getsize(save_path) > 100000:  # More than 100KB
+                                success = True
+                                self.log(f"Saved reel: {filename}")
+                            else:
+                                self.log("Downloaded file too small, retrying...")
+                                os.remove(save_path)
+                        else:
+                            self.log(f"Download attempt {retry_count + 1} failed, trying with different headers...")
+                            headers = {
+                                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                                "Referer": "https://www.instagram.com/",
+                                "Accept": "*/*",
+                                "Accept-Language": "en-US,en;q=0.9",
+                                "Connection": "keep-alive"
+                            }
+                            try:
+                                r = requests.get(video_url, headers=headers, stream=True)
+                                r.raise_for_status()
+                                with open(save_path, "wb") as f:
+                                    for chunk in r.iter_content(chunk_size=8192):
+                                        if chunk:
+                                            f.write(chunk)
+                                if os.path.getsize(save_path) > 100000:
                                     success = True
                                     self.log(f"Saved reel: {filename}")
                                 else:
                                     self.log("Downloaded file too small, retrying...")
-                                    os.remove(save_path)  # Delete the small file
-                            else:
-                                # Try with different headers
-                                self.log(f"Download attempt {retry_count + 1} failed, trying with different headers...")
-                                headers = {
-                                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                                    "Referer": "https://www.instagram.com/",
-                                    "Accept": "*/*",
-                                    "Accept-Language": "en-US,en;q=0.9",
-                                    "Connection": "keep-alive"
-                                }
-                                
-                                try:
-                                    r = requests.get(video_url, headers=headers, stream=True)
-                                    r.raise_for_status()
-                                    
-                                    with open(save_path, "wb") as f:
-                                        for chunk in r.iter_content(chunk_size=8192):
-                                            if chunk:
-                                                f.write(chunk)
-                                    
-                                    # Verify the downloaded file size
-                                    if os.path.getsize(save_path) > 100000:  # More than 100KB
-                                        success = True
-                                        self.log(f"Saved reel: {filename}")
-                                    else:
-                                        self.log("Downloaded file too small, retrying...")
-                                        os.remove(save_path)  # Delete the small file
-                                except Exception as e:
-                                    self.log(f"Download attempt {retry_count + 1} failed: {e}")
-                            
-                            retry_count += 1
-                            if not success and retry_count < max_retries:
-                                self.log(f"Retrying download (attempt {retry_count + 1}/{max_retries})...")
-                                time.sleep(2)  # Wait before retrying
-                        
-                        if not success:
-                            self.log(f"Failed to download reel after {max_retries} attempts: {filename}")
-                    else:
-                        self.log(f"Skipped (exists): {filename}")
+                                    os.remove(save_path)
+                            except Exception as e:
+                                self.log(f"Download attempt {retry_count + 1} failed: {e}")
+                        retry_count += 1
+                        if not success and retry_count < max_retries:
+                            self.log(f"Retrying download (attempt {retry_count + 1}/{max_retries})...")
+                            time.sleep(2)
+                    if not success:
+                        self.log(f"No video found for this reel.")
                 else:
-                    self.log("Could not find video URL using any method")
+                    self.log("No video found for this reel.")
                 
-                # Also download thumbnail image if available
-                try:
-                    imgs = driver.find_elements(By.XPATH, "//article//img")
-                    for img in imgs:
-                        src = img.get_attribute("src")
-                        if src and "150x150" not in src:  # Skip profile pics
-                            filename = f"reel_thumb_{index+1}.jpg"
-                            save_path = os.path.join(save_folder, filename)
-                            if not os.path.exists(save_path):
-                                urllib.request.urlretrieve(src, save_path)
-                                self.log(f"Saved reel thumbnail: {filename}")
-                except Exception as e:
-                    self.log(f"Error saving reel thumbnail: {e}")
 
             # Then download all regular posts
-            self.log("=== DOWNLOADING REGULAR POSTS ===")
+            self.log("\n=== DOWNLOADING REGULAR IMAGE + REELS POSTS ===")
             for index, post_url in enumerate(post_links):
                 driver.get(post_url)
                 delay(2, 3)
-
-                self.log(f"[Post {index+1}/{len(post_links)}] {post_url}")
+                self.log(f"\n[Post {index+1}/{len(post_links)}] {post_url}")
                 
                 # Clear logs before processing each post
                 driver.get_log("performance")
@@ -738,11 +734,6 @@ class InstaDownloader(ctk.CTk):
                     if video_candidates:
                         # Sort candidates by size in descending order
                         sorted_candidates = sorted(video_candidates.items(), key=lambda x: x[1], reverse=True)
-                        
-                        # Log all found video URLs and their sizes
-                        self.log(f"Found {len(sorted_candidates)} video candidates:")
-                        for url, size in sorted_candidates[:3]:
-                            self.log(f"Size: {size/1024/1024:.2f}MB - URL: {url[:50]}...")
                         
                         # Get the URL with the largest size
                         best_url = sorted_candidates[0][0]
@@ -823,26 +814,39 @@ class InstaDownloader(ctk.CTk):
                         self.log(f"Skipped (exists): {filename}")
 
                 # Get all images from the post (including carousel)
-                media_urls = self.get_all_images_from_carousel(driver)
-                self.log(f"Found {len(media_urls)} images in this post")
+                media_urls = self.get_all_media_from_carousel(driver)
+                self.log(f"Found {len(media_urls)} total media in carousel (images + videos)")
+                img_count = sum(1 for m in media_urls if m.get("type") == "image")
+                vid_count = sum(1 for m in media_urls if m.get("type") == "video")
+                self.log(f"Found {img_count} images in this post")
+                self.log(f"Found {vid_count} reels in this post")
 
-                # Download images
-                for img_index, media_url in enumerate(media_urls):
-                    try:
+                # Prepare image download tasks (only for images)
+                image_tasks = []
+                for img_index, media in enumerate(media_urls):
+                    if isinstance(media, dict) and media.get("type") == "image":
+                        url = media.get("url")
                         filename = f"post_{index+1}_img_{img_index+1}.jpg"
                         save_path = os.path.join(save_folder, filename)
                         if not os.path.exists(save_path):
-                            urllib.request.urlretrieve(media_url, save_path)
-                            self.log(f"Saved: {filename}")
+                            image_tasks.append((url, save_path))
+                            self.log(f"Queued: {filename}")
                         else:
                             self.log(f"Skipped (exists): {filename}")
-                    except Exception as e:
-                        self.log(f"Download error: {e}")
+
+                # Process images in batches
+                if image_tasks:
+                    self.log(f"Processing {len(image_tasks)} images...")
+                    batch_process_images(image_tasks)
+                    self.log("Image processing complete.")
 
             self.log("✅ Download Complete.")
+            elapsed = int(time.time() - start_time)
+            mins, secs = divmod(elapsed, 60)
+            self.log(f"\nDownload Complect (total time need:{mins:02d}:{secs:02d} min)")
 
         except Exception as e:
-            self.log(f"Error during download: {e}")
+            self.log(f"Error during download: {e}", level="error")
             raise e
         finally:
             driver.quit()
