@@ -73,7 +73,7 @@ python main.py
 
 <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
   <ul style="color: #ffffff;">
-    <li>Python 3.7 or higher</li>
+    <li>Python 3.13 or higher</li>
     <li>Chrome browser</li>
     <li>ChromeDriver (matching your Chrome version)</li>
   </ul>
