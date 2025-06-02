@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=2E8B57&center=true&vCenter=true&width=600&height=100&lines=Instagram+Downloader;Download+Image+%26+Reels;Fast+%26+Easy+to+Use" alt="Typing SVG" />
+  <img src="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Rubik&weight=500&size=25&duration=4849&pause=1000&color=AEB2F3&background=FFFFFF00&center=true&vCenter=true&width=426&lines=Instagram+Profile+Downloader;Download+Images+%2B+Reels;User-friendly+Interface" alt="Typing SVG" />
 </div
   
 ---
