@@ -3,11 +3,12 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.13%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/License-GPL3.0-green?style=for-the-badge&logo=gnu&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge&logo=statuspage&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Status-Working-brightgreen?style=for-the-badge&logo=statuspage&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Last Check-2 JUN 2025-lightblue?style=for-the-badge&logo=cachet&logoColor=white"/>
 </div>
 
 <div align="center">
-  <img src="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Rubik&weight=500&size=25&duration=4849&pause=1000&color=AEB2F3&background=FFFFFF00&center=true&vCenter=true&width=426&lines=Instagram+Profile+Downloader;Download+Images+%2B+Reels;User-friendly+Interface" alt="Typing SVG" />
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Rubik&weight=500&size=30&duration=4849&pause=1000&color=AEB2F3&background=FFFFFF00&center=true&vCenter=true&width=426&lines=Instagram+Profile+Downloader;Download+Images+%2B+Reels;User-friendly+Interface" alt="Typing SVG" /></a>
 </div
   
 ---
