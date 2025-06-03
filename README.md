@@ -1,4 +1,4 @@
-# <div align="center">**📸 Instagram Profile Downloader**</div>
+# <div align="center">**# Instagram Profile Downloader**</div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.13%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
