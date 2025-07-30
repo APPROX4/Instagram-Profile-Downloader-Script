@@ -137,3 +137,10 @@ python main.py
   <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% My Brain.</p>
 <h2 align="center">APPROX</h2>
 
+## Star History
+<div align="center">
+  <a href="https://www.star-history.com/#APPROX4/Instagram-Profile-Downloader-Script&Date">
+    <img src="https://api.star-history.com/svg?repos=APPROX4/Instagram-Profile-Downloader-Script&type=Date" alt="Star History Chart" />
+  </a>
+</div>
+
