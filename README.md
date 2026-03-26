@@ -3,7 +3,7 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.13%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/License-GPL3.0-green?style=for-the-badge&logo=gnu&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Status-NotWorking-brightred?style=for-the-badge&logo=statuspage&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Status-Not_Working-red?style=for-the-badge&logo=statuspage&logoColor=white"/>
   <img src="https://img.shields.io/badge/Last Check-2 JUN 2025-lightblue?style=for-the-badge&logo=cachet&logoColor=white"/>
 </div>
 
