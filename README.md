@@ -11,9 +11,9 @@
 </div>
 
 <p align="center">
-  <img src="logo/intajection.png" alt="INTAJECTION" width="400" />
+  <img src="logo/intajection.png" alt="INTAJECTION" width="1800" />
 </p>
-  
+
 ---
 <div align="center">Downloads all images and reels from any public Instagram profile. Features a modern dark-themed GUI, encrypted credential storage, smart duplicate detection.</div>
 <p></p>
