@@ -1,24 +1,25 @@
-# <div align="center">**# Instagram Profile Downloader**</div>
+<h1 align="center">INTAJECTION V2.0</h1>
+<p align="center">
+  <em>Instagram Profile Downloader — Images & Reels</em>
+</p>
 
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.13%2B-blue?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/License-GPL3.0-green?style=for-the-badge&logo=gnu&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Status-Not_Working-red?style=for-the-badge&logo=statuspage&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Last Check-2 JUN 2025-lightblue?style=for-the-badge&logo=cachet&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Selenium-Firefox-FF7139?style=for-the-badge&logo=selenium&logoColor=white" />
+  <img src="https://img.shields.io/badge/Last Check-8 AUG 2026-lightblue?style=for-the-badge&logo=cachet&logoColor=white"/>
 </div>
 
-<div align="center">
-  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Rubik&weight=500&size=30&duration=4849&pause=1000&color=AEB2F3&background=FFFFFF00&center=true&vCenter=true&width=426&lines=Instagram+Profile+Downloader;Download+Images+%2B+Reels;User-friendly+Interface" alt="Typing SVG" /></a>
-</div
+<p align="center">
+  <img src="logo/intajection.png" alt="INTAJECTION" width="400" />
+</p>
   
 ---
-
-# <div align="center">🎯 Overview</div>
-<div align="center">A Python-based tool to download all media content from Instagram profiles, including reels, and images. user-friendly interface.</div>
+<div align="center">Downloads all images and reels from any public Instagram profile. Features a modern dark-themed GUI, encrypted credential storage, smart duplicate detection.</div>
 <p></p>
 <p align="center">
-  <a href="https://postimg.cc/2Vr4ZnsL">
-    <img src="https://i.postimg.cc/qMCQWLQw/Capture125.png" alt="Capp.png"/>
+  <a href="https://postimg.cc/HrVgz0Tn">
+    <img src="https://i.postimg.cc/NjxjgbV6/image.png" alt="Capp.png"/>
   </a>
 </p>
 
@@ -37,69 +38,83 @@
   <p style="color: #ff6b6b;">Use at your own risk and responsibly.</p>
 </div>
 
-## ✨ Features
+---
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
-  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #4CAF50;">📥 Download Images</h3>
-    <p style="color: #ffffff;">Download all Images from any Instagram profile</p>
-  </div>
-  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #2196F3;">🎥 Download Reels</h3>
-    <p style="color: #ffffff;">Download reels and videos in high quality</p>
-  </div>
-  <div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px;">
-    <h3 style="color: #9C27B0;">💾 Remember</h3>
-    <p style="color: #ffffff;">Remember login Password & Username</p>
-  </div>
-</div>
+## Features
 
-## 🚀 Quick Start
+- **Download All Content** — Images, carousel posts, and reels from profile
+- **Modern Dark GUI** — Sleek CustomTkinter interface with real-time log
+- **Duplicate Detection** — Skips already-downloaded files automatically
+- **Encrypted Credentials** — Login details stored securely with Fernet encryption
+- **Remember Me** — Save credentials for quick re-login
+- **Download Order** — Choose images-first or reels-first
+- **Retry Logic** — Failed downloads retry with exponential backoff
 
-# Clone the repository
+---
+
+## Quick Start (EXE)
+
+> **No Python needed** — just download and run.
+
+1. Download `Intajection.exe` from the [`dist/`](dist/) folder
+2. Make sure **Firefox** is installed on your PC
+3. Double-click the `.exe` and start downloading
+
+---
+## Quick Start (Python)
+
+### Prerequisites
+
+- Python 3.10+
+- Firefox browser installed
+
+### Installation
+
 ```bash
-git clone https://github.com/APPROX4/Instagram-Profile-Downloader-Script.git
-```
-# Install dependencies
-```bash
+git clone https://github.com/APPROX4/Intajection.git
+cd Intajection
 pip install -r requirements.txt
 ```
 
-# Run the script
+### Run
+
 ```bash
 python main.py
 ```
 
-## 📋 Prerequisites
+---
 
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <ul style="color: #ffffff;">
-    <li>Python 3.13 or higher</li>
-    <li>Chrome browser</li>
-    <li>ChromeDriver (matching your Chrome version)</li>
-  </ul>
-</div>
+## How to Use
 
-## 💻 Usage Guide
+1. Enter your **Instagram username/email** and **password**
+2. Check **Remember** to save credentials for next time
+3. Enter the **target username** or profile URL
+4. Toggle **Image First / Reels First** based on preference
+5. Click **Start Download**
+6. Watch the log panel for real-time progress
+7. Files are saved to `downloads/<username>/images/` and `downloads/<username>/reels/`
 
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <ol style="color: #ffffff;">
-    <li>Run the script using <code>python main.py</code></li>
-    <li>Enter the target Instagram profile username or URL</li>
-    <li>Enable login for private profiles (recommended++)</li>
-    <li>Click "Start Download"</li>
-  </ol>
-</div>
+---
 
-## 📁 Output Structure
+## Dependencies
 
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <p style="color: #ffffff;">All downloaded media will be saved in the <code>downloads</code> folder:</p>
-  <ul style="color: #ffffff;">
-    <li>Posts: <code>post_X_img_Y.jpg</code></li>
-    <li>Reels: <code>reel_X.mp4</code></li>
-  </ul>
-</div>
+| Package | Purpose |
+|---------|---------|
+| `selenium` | Browser automation (Firefox WebDriver) |
+| `webdriver-manager` | Auto-downloads geckodriver |
+| `customtkinter` | Modern dark-themed GUI |
+| `Pillow` | Image processing (WebP → JPEG) |
+| `requests` | HTTP downloads |
+| `cryptography` | Encrypted credential storage |
+
+---
+## Requirements
+
+- **Windows 10/11**
+- **Firefox browser** must be installed
+- Geckodriver is downloaded automatically on first run
+
+---
 
 ## ⚠️ Known Limitations
 
@@ -113,22 +128,9 @@ python main.py
   </ul>
 </div>
 
-## 🙏 Acknowledgments
+## License
 
-<div style="background-color: #1a1a1a; padding: 20px; border-radius: 10px; margin: 20px 0;">
-  <ul style="color: #ffffff;">
-    <li>Selenium WebDriver</li>
-    <li>Python community</li>
-    <li>Instagram (for the platform)</li>
-  </ul>
-</div>
-
-# <div align="center">🤝 Contributing</div>
-
-<div align="center">
-  <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
-  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome"/>
-</div>
+This project is open source. Feel free to fork and modify.
 
 ---
 
@@ -136,11 +138,5 @@ python main.py
   <div style="background-color: #2d2d2d; padding: 20px; border-radius: 10px; margin: 20px 0;">
   <p style="color: #ff6b6b;">This script is 80% AI-generated and 20% My Brain.</p>
 <h2 align="center">APPROX</h2>
-
-## Star History
-<div align="center">
-  <a href="https://www.star-history.com/#APPROX4/Instagram-Profile-Downloader-Script&Date">
-    <img src="https://api.star-history.com/svg?repos=APPROX4/Instagram-Profile-Downloader-Script&type=Date" alt="Star History Chart" />
-  </a>
 </div>
 
