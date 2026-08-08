@@ -56,7 +56,7 @@
 
 > **No Python needed** — just download and run.
 
-1. Download `Intajection.exe` from the [`dist/`](dist/) folder
+1. Download `Intajection.exe`
 2. Make sure **Firefox** is installed on your PC
 3. Double-click the `.exe` and start downloading
 
