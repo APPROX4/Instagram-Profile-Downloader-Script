@@ -1,4 +1,4 @@
-<h1 align="center">INTAJECTION V2.0</h1>
+<h1 align="center">INSTAJECTION V2.0</h1>
 <p align="center">
   <em>Instagram Profile Downloader — Images & Reels</em>
 </p>
@@ -71,8 +71,8 @@
 ### Installation
 
 ```bash
-git clone https://github.com/APPROX4/Intajection.git
-cd Intajection
+git clone https://github.com/APPROX4/Instagram-Profile-Downloader-Script.git
+cd Instajection
 pip install -r requirements.txt
 ```
 
