@@ -18,8 +18,8 @@
 <div align="center">Downloads all images and reels from any public Instagram profile. Features a modern dark-themed GUI, encrypted credential storage, smart duplicate detection.</div>
 <p></p>
 <p align="center">
-  <a href="https://postimg.cc/HrVgz0Tn">
-    <img src="https://i.postimg.cc/NjxjgbV6/image.png" alt="Capp.png"/>
+  <a href="https://postimg.cc/5Q9bgphV">
+    <img src="https://i.postimg.cc/6qnq9mzy/image.png" alt="Capp.png"/>
   </a>
 </p>
 
