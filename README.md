@@ -56,7 +56,7 @@
 
 > **No Python needed** — just download and run.
 
-1. **[🚀 Click Here to Download the Latest .exe](https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/download/exe/Instajection.exe )**
+1. **[🚀 Click Here to Download the Latest .exe](https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/tag/NSTAJECTION-2.0.1)**
 2. Make sure **Firefox** is installed on your PC
 3. Double-click the `.exe` and start downloading
 
