@@ -1,5 +1,5 @@
 """
-Configuration and Credentials Manager for INTAJECTION.
+Configuration and Credentials Manager for INSTAJECTION.
 Handles encrypted credential storage and application settings persistence.
 """
 
@@ -12,7 +12,7 @@ from cryptography.fernet import Fernet
 class ConfigManager:
     """Manages encrypted credentials and application settings."""
 
-    CONFIG_DIR_NAME = "Intajection"
+    CONFIG_DIR_NAME = "Instajection"
     CONFIG_FILE = "config.json"
     KEY_FILE = "secret.key"
 
@@ -26,7 +26,7 @@ class ConfigManager:
     # ── Directory ──────────────────────────────────────────────
 
     def _get_config_dir(self) -> Path:
-        """Get the application data directory (%APPDATA%/Intajection)."""
+        """Get the application data directory (%APPDATA%/Instajection)."""
         appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
         return Path(appdata) / self.CONFIG_DIR_NAME
 

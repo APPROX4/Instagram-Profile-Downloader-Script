@@ -5,6 +5,7 @@ import time
 import threading
 import queue
 import datetime
+import webbrowser
 from tkinter import END
 
 import customtkinter as ctk
@@ -44,8 +45,8 @@ CARD_OY = 4
 #  APPLICATION
 # ═══════════════════════════════════════════════════════════════
 
-class IntajectionApp(ctk.CTk):
-    """INTAJECTION — Main application window."""
+class InstajectionApp(ctk.CTk):
+    """INSTAJECTION — Main application window."""
 
     WIDTH  = 666
     HEIGHT = 597
@@ -54,7 +55,7 @@ class IntajectionApp(ctk.CTk):
         super().__init__()
 
         # ── Window ─────────────────────────────────────────────
-        self.title("INTAJECTION")
+        self.title("INSTAJECTION")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
         self.minsize(self.WIDTH, self.HEIGHT)
         self.maxsize(self.WIDTH, self.HEIGHT)
@@ -89,12 +90,37 @@ class IntajectionApp(ctk.CTk):
         return (wx + CARD_OX, wy + CARD_OY)
 
     def _get_logo_path(self):
-        """Resolve the logo path, works both in dev and PyInstaller."""
+        """Resolve logo path across dev, PyInstaller, and BeeWare Briefcase."""
+        candidates = []
+        
+        # PyInstaller bundle directory
         if getattr(sys, 'frozen', False):
-            base = sys._MEIPASS
-        else:
-            base = os.path.dirname(os.path.abspath(__file__))
-        return os.path.join(base, "logo", "intajection.png")
+            base = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+            candidates.append(os.path.join(base, "logo", "instajection.png"))
+            candidates.append(os.path.join(base, "instajection.png"))
+        
+        # Standard directory of ui_app.py
+        curr_dir = os.path.dirname(os.path.abspath(__file__))
+        candidates.append(os.path.join(curr_dir, "logo", "instajection.png"))
+        
+        # Parent directory
+        parent_dir = os.path.dirname(curr_dir)
+        candidates.append(os.path.join(parent_dir, "logo", "instajection.png"))
+        
+        # Main entry directory
+        if sys.argv:
+            main_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+            candidates.append(os.path.join(main_dir, "logo", "instajection.png"))
+
+        # Current working directory
+        cwd = os.getcwd()
+        candidates.append(os.path.join(cwd, "logo", "instajection.png"))
+
+        for path in candidates:
+            if os.path.isfile(path):
+                return path
+                
+        return os.path.join(curr_dir, "logo", "instajection.png")
 
     def _build_ui(self):
         # ── Background card ────────────────────────────────────
@@ -110,38 +136,27 @@ class IntajectionApp(ctk.CTk):
         c = self.bg_card   # shorthand — every widget goes here
 
         # ────────────────────────────────────────────────────────
-        #  LOGO + TITLE
+        #  LOGO
         # ────────────────────────────────────────────────────────
         logo_path = self._get_logo_path()
         if os.path.exists(logo_path):
             logo_img = PILImage.open(logo_path)
-            # Scale to fit header height (~40px tall)
             aspect = logo_img.width / logo_img.height
-            logo_h = 40
+            logo_h = 120
             logo_w = int(aspect * logo_h)
             self.logo_ctk = ctk.CTkImage(
                 light_image=logo_img, dark_image=logo_img,
                 size=(logo_w, logo_h),
             )
-            x, y = self._p(62, 6)
+            # Center logo in the middle of the window
+            logo_x_window = (self.WIDTH - logo_w) // 2 + 50
+            logo_wx = logo_x_window - CARD_OX
+            x, y = self._p(logo_wx, 10)
             self.logo_label = ctk.CTkLabel(
                 c, image=self.logo_ctk, text="",
                 fg_color="transparent",
             )
             self.logo_label.place(x=x, y=y)
-            # Title text to the right of the logo
-            title_x = x + logo_w + 12
-        else:
-            title_x, _ = self._p(160, 6)
-
-        x, y = title_x, self._p(0, 10)[1]
-        self.title_label = ctk.CTkLabel(
-            c, text="INTAJECTION",
-            text_color=TEXT, fg_color="transparent",
-            font=("Segoe UI", 22, "bold"),
-            width=260, height=32,
-        )
-        self.title_label.place(x=x, y=y)
 
         # ────────────────────────────────────────────────────────
         #  USERNAME / EMAIL
@@ -307,11 +322,11 @@ class IntajectionApp(ctk.CTk):
         # ────────────────────────────────────────────────────────
         #  BIG LOG BOX
         # ────────────────────────────────────────────────────────
-        x, y = self._p(339, 82)
+        x, y = self._p(339, 92)
         self.log_frame = ctk.CTkFrame(
             c, fg_color=BG_INPUT, border_color=BG_INPUT,
             border_width=0, corner_radius=15,
-            width=294, height=443,
+            width=294, height=433,
         )
         self.log_frame.place(x=x, y=y)
         self.log_frame.pack_propagate(False)
@@ -325,14 +340,26 @@ class IntajectionApp(ctk.CTk):
         self.log_box.pack(fill="both", expand=True, padx=2, pady=2)
 
         # ────────────────────────────────────────────────────────
-        #  FOOTER — INTAJECTION v2.0
+        #  FOOTER — APPROX
         # ────────────────────────────────────────────────────────
-        x, y = self._p(-1, 561)
+        x, y = self._p(31, 558)
+        self.approx_label = ctk.CTkLabel(
+            c, text="APPROX",
+            text_color="#64B5F6", fg_color="transparent",
+            font=("Verdana", 12, "bold"), anchor="w",
+            cursor="hand2",
+        )
+        self.approx_label.place(x=x, y=y)
+        self.approx_label.bind("<Button-1>", self._open_github)
+        self.approx_label.bind("<Enter>", lambda e: self.approx_label.configure(text_color="#90CAF9"))
+        self.approx_label.bind("<Leave>", lambda e: self.approx_label.configure(text_color="#64B5F6"))
+
+        x, y = self._p(541, 558)
         self.status_label = ctk.CTkLabel(
-            c, text="INTAJECTION v2.0",
-            text_color=TEXT, fg_color="transparent",
-            font=("Verdana", 12), anchor="center",
-            width=180, height=32, justify="center",
+            c, text="V : 2.0.1",
+            text_color=TEXT_MUTED, fg_color="transparent",
+            font=("Verdana", 12), anchor="e",
+            width=90, justify="right",
         )
         self.status_label.place(x=x, y=y)
 
@@ -353,6 +380,12 @@ class IntajectionApp(ctk.CTk):
     # ═══════════════════════════════════════════════════════════
     #  ACTIONS & LOGIC
     # ═══════════════════════════════════════════════════════════
+
+    def _open_github(self, event=None):
+        """Open author GitHub repository in default browser."""
+        webbrowser.open_new_tab(
+            "https://github.com/APPROX4/Instagram-Profile-Downloader-Script"
+        )
 
     def _validate(self):
         """Enable Start only when all required fields are filled."""
@@ -433,7 +466,7 @@ class IntajectionApp(ctk.CTk):
         self.stop_btn.configure(state="normal", fg_color=ERROR,
                                 hover_color="#FF7777",
                                 text_color="#FFFFFF")
-        self.status_label.configure(text="INTAJECTION v2.0", text_color=TEXT)
+        self.status_label.configure(text="V : 2.0.0", text_color=TEXT_MUTED)
         self._append_log("🚀 Starting download process…")
 
         # Launch bot in background thread
@@ -452,7 +485,7 @@ class IntajectionApp(ctk.CTk):
         self._append_log("⛔ FORCE STOP — killing browser instantly…", "error")
         self.stop_event.set()
         self.stop_btn.configure(state="disabled")
-        self.status_label.configure(text="INTAJECTION v2.0", text_color=TEXT)
+        self.status_label.configure(text="V : 2.0.0", text_color=TEXT_MUTED)
 
         # Force-kill the browser from the main thread — instant death
         def _force_kill():
@@ -518,7 +551,7 @@ class IntajectionApp(ctk.CTk):
         self.start_btn.configure(state="normal")
         self.stop_btn.configure(state="disabled", fg_color=ACCENT_STOP,
                                 text_color="#FFFFFF")
-        self.status_label.configure(text="INTAJECTION v2.0", text_color=TEXT)
+        self.status_label.configure(text="V : 2.0.0", text_color=TEXT_MUTED)
         self._smart_log("✅ Process complete.\n")
         self._validate()
 
@@ -677,10 +710,10 @@ class IntajectionApp(ctk.CTk):
 # ═══════════════════════════════════════════════════════════════
 
 def launch():
-    """Launch the INTAJECTION desktop application."""
+    """Launch the INSTAJECTION desktop application."""
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
-    app = IntajectionApp()
+    app = InstajectionApp()
     app.mainloop()
 
 

@@ -1,5 +1,5 @@
 """
-INTAJECTION — Media Download Manager.
+INSTAJECTION — Media Download Manager.
 Handles file downloads with retry logic, smart naming, duplicate detection,
 directory management, and progress/time tracking.
 """

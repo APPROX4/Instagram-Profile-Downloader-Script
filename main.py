@@ -1,5 +1,5 @@
 """
-INTAJECTION — Instagram Image & Reels Downloader
+INSTAJECTION — Instagram Image & Reels Downloader
 Entry point — launches the modern desktop GUI.
 
 Usage:
@@ -29,8 +29,8 @@ from ui_app import launch
 
 
 def main():
-    """Bootstrap and run INTAJECTION."""
-    print("Starting INTAJECTION...")
+    """Bootstrap and run INSTAJECTION."""
+    print("Starting INSTAJECTION...")
     launch()
 
 

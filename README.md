@@ -1,4 +1,4 @@
-<h1 align="center">INSTAJECTION V2.0</h1>
+<h1 align="center">APPROX 2.0</h1>
 <p align="center">
   <em>Instagram Profile Downloader — Images & Reels</em>
 </p>
@@ -11,7 +11,7 @@
 </div>
 
 <p align="center">
-  <img src="logo/intajection.png" alt="INTAJECTION" width="1800" />
+  <img src="logo/instajection.png" alt="INSTAJECTION" width="1800" />
 </p>
 
 ---
@@ -56,7 +56,7 @@
 
 > **No Python needed** — just download and run.
 
-1. **[🚀 Click Here to Download the Latest .exe](https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/download/exe/Intajection.exe )**
+1. **[🚀 Click Here to Download the Latest .exe](https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/download/exe/Instajection.exe )**
 2. Make sure **Firefox** is installed on your PC
 3. Double-click the `.exe` and start downloading
 

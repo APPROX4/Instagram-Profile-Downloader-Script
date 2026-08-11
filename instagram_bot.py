@@ -1,5 +1,5 @@
 """
-INTAJECTION — Instagram Selenium Automation Engine.
+INSTAJECTION — Instagram Selenium Automation Engine.
 Handles browser setup, login, profile scrolling, post collection,
 carousel image extraction, reel video capture, and anti-ban measures.
 """
