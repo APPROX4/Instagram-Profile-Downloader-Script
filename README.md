@@ -52,15 +52,27 @@
 
 ---
 
-## Quick Start (EXE)
+## 📥 Download Latest Release
 
-> **No Python needed** — just download and run.
+<p align="center">
+  <img src="logo/instajection.png" width="90" alt="INSTAJECTION Icon">
+  <br><br>
+  <b>INSTAJECTION v2.0.1</b><br>
+  No Python Required — Just Download & Run
+  <br><br>
+  <a href="https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/tag/INSTAJECTION-2.0.1">
+    <img src="https://img.shields.io/badge/⬇️_Download_INSTAJECTION_v2.0.1-2ea44f?style=for-the-badge&logoColor=white" alt="Download">
+  </a>
+  <br><br>
+  <a href="https://www.virustotal.com/gui/file/99c9d1bad4bf7c1f5a8b0f1e49c83aaa44fbb220d0b308eea00e73f6abb093bb/detection">
+    <img src="https://img.shields.io/badge/VirusTotal-Scanned_&_Verified-394EFF?style=for-the-badge&logo=virustotal&logoColor=white" alt="VirusTotal">
+  </a>
+  <br><br>
+  <sub>🔐 SHA-256: <code>99c9d1ba...b093bb</code></sub>
+  <br><br>
+  ⚠️ <b>Requires Firefox</b> to be installed on your PC
+</p>
 
-1. **[🚀 Click Here to Download the Latest .exe](https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/tag/NSTAJECTION-2.0.1)**
-2. Make sure **Firefox** is installed on your PC
-3. Double-click the `.exe` and start downloading
-
----
 ## Quick Start (Python)
 
 ### Prerequisites
