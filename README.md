@@ -1,4 +1,4 @@
-<h1 align="center">INSTAJECTION 2.0.1</h1>
+<h1 align="center">INSTAJECTION</h1>
 <p align="center">
   <em>Instagram Profile Downloader — Images & Reels</em>
 </p>
