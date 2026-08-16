@@ -122,7 +122,6 @@ python main.py
 ---
 ## Requirements
 
-- **Windows 10/11**
 - **Firefox browser** must be installed
 - Geckodriver is downloaded automatically on first run
 
