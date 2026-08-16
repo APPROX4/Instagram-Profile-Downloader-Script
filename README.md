@@ -135,8 +135,6 @@ python main.py
     <li>Slow download speed for large profiles</li>
     <li>No support for highlights (coming soon)</li>
     <li>May trigger Instagram's anti-bot measures</li>
-    <li>Requires manual ChromeDriver updates</li>
-    <li>GUI may freeze during large downloads</li>
   </ul>
 </div>
 
