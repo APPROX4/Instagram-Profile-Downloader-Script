@@ -55,12 +55,12 @@
 ## 📥 Download Latest Release
 
 <p align="center">
-  <img src="logo/instajection.png" width="90" alt="INSTAJECTION Icon">
+  <img src="logo/instajection-icon.png" width="90" alt="INSTAJECTION Icon">
   <br><br>
   <b>INSTAJECTION v2.0.1</b><br>
   No Python Required — Just Download & Run
   <br><br>
-  <a href="https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/tag/INSTAJECTION-2.0.1">
+  <a href="https://github.com/APPROX4/Instagram-Profile-Downloader-Script/releases/tag/NSTAJECTION-2.0.1">
     <img src="https://img.shields.io/badge/⬇️_Download_INSTAJECTION_v2.0.1-2ea44f?style=for-the-badge&logoColor=white" alt="Download">
   </a>
   <br><br>
