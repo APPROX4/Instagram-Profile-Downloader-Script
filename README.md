@@ -68,8 +68,6 @@
     <img src="https://img.shields.io/badge/VirusTotal-Scanned_&_Verified-394EFF?style=for-the-badge&logo=virustotal&logoColor=white" alt="VirusTotal">
   </a>
   <br><br>
-  <sub>🔐 SHA-256: <code>99c9d1ba...b093bb</code></sub>
-  <br><br>
   ⚠️ <b>Requires Firefox</b> to be installed on your PC
 </p>
 
